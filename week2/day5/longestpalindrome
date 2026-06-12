@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int checkPalindrome(string s, int l, int r) {
+        while (l >= 0 && r < s.length() && s[l] == s[r]) {
+            l--;
+            r++;
+        }
+        return r - l - 1;
+    }
+
+    string longestPalindrome(string s) {
+        if (s.length() <= 1) {
+            return s;
+        }
+
+        int maxLength = 1;
+        int startIndex = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            int oddLength = checkPalindrome(s, i, i);
+            int evenLength = checkPalindrome(s, i, i + 1);
+
+            int currentLength = max(oddLength, evenLength);
+
+            if (currentLength > maxLength) {
+                maxLength = currentLength;
+                startIndex = i - (currentLength - 1) / 2;
+            }
+        }
+
+        return s.substr(startIndex, maxLength);
+    }
+};
